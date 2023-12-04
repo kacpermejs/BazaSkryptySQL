@@ -2,6 +2,9 @@
 
 --Select 2 - wizyty funkcyjny
 
+--Select 3 - klucz obcy id_lekarstwa w lekarstwo_recepta
+
+
     
     
     
