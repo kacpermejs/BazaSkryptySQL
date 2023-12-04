@@ -16,10 +16,10 @@ DEFINE number_of_iterations = '1'
 --@&path\select_patients_with_3_meds.sql
 
 --SELECT (œrednia liczba wystawionych w przychodni, listujemy personel, który wystawi³ wiêcej ni¿ œrednia w jego przychodni)
---@&path\select_average_vs_personel.sql
+@&path\select_average_vs_personel.sql
 
 --SELECT (szukamy, jakie lekarstwo by³o przepisywane na receptach (liczy sie iloœæ opakowañ) w danej przychodni)
-@&path\select_most_popular_medicine.sql
+--@&path\select_most_popular_medicine.sql
 
 --Print table with results
 SELECT * FROM WYNIKI;
