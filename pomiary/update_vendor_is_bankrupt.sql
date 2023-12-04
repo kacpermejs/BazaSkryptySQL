@@ -111,6 +111,6 @@ WHEN MATCHED THEN
 UPDATE SET lr.id_lekarstwa = first_row;
 
 --save explained plan to file
-SPOOL D:\Queries\output\update_vendor_is_bankrupt.txt APPEND;
+SPOOL C:\SQL_output\update_vendor_is_bankrupt.txt APPEND;
 SELECT * FROM TABLE(dbms_xplan.display);
 SPOOL OFF;

@@ -89,6 +89,6 @@ FROM (
 );
 
 --save explained plan to file
-SPOOL D:\Queries\output\avg_days_between_visits.txt APPEND;
+SPOOL C:\SQL_output\avg_days_between_visits.txt APPEND;
 SELECT * FROM TABLE(dbms_xplan.display);
 SPOOL OFF;

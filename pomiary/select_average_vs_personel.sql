@@ -40,7 +40,7 @@ BEGIN
                 WHERE EXTRACT(YEAR FROM (SYSDATE)) = EXTRACT(YEAR FROM w.rozpoczecie) AND r.status LIKE 'wykupiona'
                 GROUP BY w.id_personelu
             )
-            SELECT COUNT(COUNT(*)) INTO v_variable
+            SELECT /*+ INDEX(wizyta IX_WIZYTY) */ COUNT(COUNT(*)) INTO v_variable
             FROM PERSONEL_MEDYCZNY pm2
             JOIN PRZYCHODNIA prz2 ON pm2.id_przychodni = prz2.id
             JOIN OSOBA o ON o.id = pm2.id_osoby
@@ -86,7 +86,7 @@ WITH Subquery AS (
     WHERE EXTRACT(YEAR FROM (SYSDATE)) = EXTRACT(YEAR FROM w.rozpoczecie) AND r.status LIKE 'wykupiona'
     GROUP BY w.id_personelu
 )
-SELECT pm2.id, o.imie, o.nazwisko, prz2.nazwa, liczba_recept, srednia_liczba_recept, data
+SELECT /*+ INDEX(wizyta IX_WIZYTY) */ COUNT(COUNT(*))
 FROM PERSONEL_MEDYCZNY pm2
 JOIN PRZYCHODNIA prz2 ON pm2.id_przychodni = prz2.id
 JOIN OSOBA o ON o.id = pm2.id_osoby
@@ -100,10 +100,9 @@ JOIN (
 ) ON prz2.nazwa = nazwa_przychodni
 WHERE liczba_recept > srednia_liczba_recept AND pm2.typ_umowy LIKE 'Umowa zlecenia'
 GROUP BY pm2.id, o.imie, o.nazwisko, prz2.nazwa, liczba_recept, srednia_liczba_recept, data
-ORDER BY data
-FETCH FIRST 1000 ROWS ONLY;
+ORDER BY data;
 
 --save explained plan to file
-SPOOL D:\Queries\output\select_average_vs_personel.txt APPEND;
+SPOOL C:\SQL_output\select_average_vs_personel.txt APPEND;
 SELECT * FROM TABLE(dbms_xplan.display);
 SPOOL OFF;

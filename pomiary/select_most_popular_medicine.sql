@@ -77,7 +77,7 @@ END;
 EXPLAIN PLAN FOR 
 SELECT *
 FROM (
-    SELECT nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
+    SELECT /*+ INDEX(przychodnia idx_miasto) */ nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
     FROM (
         SELECT l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
         FROM LEKARSTWO_RECEPTY lr 
@@ -91,9 +91,9 @@ FROM (
     ) 
     GROUP BY nazwa_przychodni, nazwa_leku, miasto, ilosc_opakowan
 )
-WHERE ranking = 1 AND miasto LIKE 'Wroc³aw%';
+WHERE ranking = 1 AND miasto LIKE 'Bydgoszcz%';
 
 --save explained plan to file
-SPOOL D:\Queries\output\select_most_popular_medicine.txt APPEND;
+SPOOL C:\SQL_output\select_most_popular_medicine.txt APPEND;
 SELECT * FROM TABLE(dbms_xplan.display);
 SPOOL OFF;

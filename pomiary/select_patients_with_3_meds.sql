@@ -93,6 +93,6 @@ p.id IN (
 );
 
 --save explained plan to file
-SPOOL D:\Queries\output\select_patients_with_3_meds.txt APPEND;
+SPOOL C:\SQL_output\patients_3_meds.txt APPEND;
 SELECT * FROM TABLE(dbms_xplan.display);
 SPOOL OFF;
