@@ -38,7 +38,7 @@ BEGIN
             FROM (
                 SELECT nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
                 FROM (
-                    SELECT l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
+                    SELECT /*+ INDEX(lekarstwo_recepty idx_id_recepty_lr) */l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
                     FROM LEKARSTWO_RECEPTY lr 
                     JOIN LEKARSTWO l ON l.id = lr.id_lekarstwa
                     JOIN RECEPTY r ON r.id = lr.id_recepty
