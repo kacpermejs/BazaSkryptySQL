@@ -38,19 +38,19 @@ BEGIN
             FROM (
                 SELECT nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
                 FROM (
-                    SELECT /*+ INDEX(lekarstwo_recepty idx_id_recepty_lr) */l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
+                    SELECT l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
                     FROM LEKARSTWO_RECEPTY lr 
                     JOIN LEKARSTWO l ON l.id = lr.id_lekarstwa
                     JOIN RECEPTY r ON r.id = lr.id_recepty
                     JOIN PACJENT p ON p.id = r.id_pacjenta
                     JOIN PRZYCHODNIA prz ON prz.id = p.id_przychodni
-                    WHERE l.ilosc_dawek > 10
+                    WHERE l.pojemnosc_ml > 1000 OR l.pojemnosc_g > 400 OR l.ilosc_dawek > 30
                     GROUP BY l.id, prz.nazwa, l.nazwa, prz.miasto
-                    HAVING SUM(lr.ilosc_opakowan) > 1
+                    HAVING SUM(lr.ilosc_opakowan) > 0
                 ) 
                 GROUP BY nazwa_przychodni, nazwa_leku, miasto, ilosc_opakowan
             )
-            WHERE ranking = 1 AND miasto LIKE 'Wroc³aw%';
+            WHERE ranking = 1 AND miasto LIKE 'Bydgoszcz%';
         
             v_end_time := DBMS_UTILITY.GET_TIME;
             v_elapsed_time := (v_end_time - v_start_time) / 100;
@@ -77,7 +77,7 @@ END;
 EXPLAIN PLAN FOR 
 SELECT *
 FROM (
-    SELECT /*+ INDEX(przychodnia idx_miasto) */ nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
+    SELECT nazwa_przychodni, nazwa_leku, miasto AS miasto, RANK() OVER (PARTITION BY nazwa_przychodni ORDER BY ilosc_opakowan DESC) AS ranking
     FROM (
         SELECT l.id, prz.nazwa AS nazwa_przychodni, l.nazwa AS nazwa_leku, SUM(lr.ilosc_opakowan) AS ilosc_opakowan, prz.miasto AS miasto
         FROM LEKARSTWO_RECEPTY lr 
@@ -85,7 +85,7 @@ FROM (
         JOIN RECEPTY r ON r.id = lr.id_recepty
         JOIN PACJENT p ON p.id = r.id_pacjenta
         JOIN PRZYCHODNIA prz ON prz.id = p.id_przychodni
-        WHERE l.pojemnosc_ml > 1000 OR l.pojemnosc_g > 400 OR l.wielkosc_dawki_mg > 2000
+        WHERE l.pojemnosc_ml > 1000 OR l.pojemnosc_g > 400 OR l.ilosc_dawek > 30
         GROUP BY l.id, prz.nazwa, l.nazwa, prz.miasto
         HAVING SUM(lr.ilosc_opakowan) > 0
     ) 
