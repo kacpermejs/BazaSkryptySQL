@@ -40,7 +40,7 @@ BEGIN
                 WHERE EXTRACT(YEAR FROM (SYSDATE)) = EXTRACT(YEAR FROM w.rozpoczecie) AND r.status LIKE 'wykupiona'
                 GROUP BY w.id_personelu
             )
-            SELECT /*+ INDEX(wizyta IX_WIZYTY) */ COUNT(COUNT(*)) INTO v_variable
+            SELECT COUNT(COUNT(*)) INTO v_variable
             FROM PERSONEL_MEDYCZNY pm2
             JOIN PRZYCHODNIA prz2 ON pm2.id_przychodni = prz2.id
             JOIN OSOBA o ON o.id = pm2.id_osoby
@@ -86,7 +86,7 @@ WITH Subquery AS (
     WHERE EXTRACT(YEAR FROM (SYSDATE)) = EXTRACT(YEAR FROM w.rozpoczecie) AND r.status LIKE 'wykupiona'
     GROUP BY w.id_personelu
 )
-SELECT /*+ INDEX(wizyta IX_WIZYTY) */ COUNT(COUNT(*))
+SELECT COUNT(COUNT(*))
 FROM PERSONEL_MEDYCZNY pm2
 JOIN PRZYCHODNIA prz2 ON pm2.id_przychodni = prz2.id
 JOIN OSOBA o ON o.id = pm2.id_osoby

@@ -3,10 +3,12 @@
 --Select 2 - wizyty funkcyjny
 
 CREATE INDEX idx_data_rozpoczecia ON WIZYTA (EXTRACT(YEAR FROM(ROZPOCZECIE)));
+DROP INDEX idx_data_rozpoczecia;
 
 --Select 3 - klucz obcy id_lekarstwa w lekarstwo_recepta
 
 CREATE INDEX idx_wiz ON WIZYTA (STATUS, CZY_PRYWATNA, REFUNDACJA);
+DROP INDEX idx_wiz;
 
 --Select 4 pomysł Kamila
     
