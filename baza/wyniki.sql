@@ -9,4 +9,6 @@ CREATE TABLE wyniki
     data_badania TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-SELECT * FROM wyniki
+SELECT * FROM wyniki;
+
+DELETE FROM wyniki;

@@ -10,14 +10,14 @@ DEFINE number_of_iterations = '1'
 --@&path\update_premium.sql
 
 --SELECT (wyszukanie �redniej liczby dni pomi�dzy wizytami dla pacjent�w)
---@&path\avg_days_between_visits.sql
+@&path\avg_days_between_visits.sql
 
 --SELECT (szukamy pacjent�w, kt�rzy maj� wi�cej ni� 3 r�ne leki przepisane na kt�rejkolwiek recepcie) 
 --@&path\select_patients_with_3_meds.sql
 
 --SELECT (�rednia liczba wystawionych w przychodni, listujemy personel, kt�ry wystawi� wi�cej ni� �rednia w jego przychodni)
-@&path\select_most_popular_medicine.sql
-@&path\select_average_vs_personel.sql
+--@&path\select_most_popular_medicine.sql
+--@&path\select_average_vs_personel.sql
 
 --SELECT (szukamy, jakie lekarstwo by�o przepisywane na receptach (liczy sie ilo�� opakowa�) w danej przychodni)
 
